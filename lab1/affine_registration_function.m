@@ -37,7 +37,7 @@ x=par.*scale;
             -sin(x(3)) cos(x(3)) x(2);
            0 0 1];
  
-    end;
+    end
 
 
 I3=affine_transform_2d_double(double(Imoving),double(M),0); % 3 stands for cubic interpolation
@@ -54,10 +54,16 @@ switch mtype
         e = -Nom/Denom;
 
     case 'gcc'
+        [FixedGx,FixedGy] = imgradientxy(Ifixed);
+        [MovingGx,MovingGy] = imgradientxy(I3);
+        p = abs(FixedGx.*MovingGx + FixedGy.*MovingGy);
+        e1 = FixedGx.^2 + FixedGy.^2;
+        e2 = MovingGx.^2 + MovingGy.^2;
+        e = -sum(p(:))/sqrt(sum(e1(:))*sum(e2(:)));
         
 
 
     otherwise
         error('Unknown metric type');
-end;
+end
 
