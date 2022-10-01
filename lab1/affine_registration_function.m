@@ -55,6 +55,14 @@ switch mtype
         denom = sqrt(sum(sum(fixed_diff.^2)) * sum(sum(moving_diff.^2)));
         e = -num/denom;
     case 'gcc'
+        [FixedGx,FixedGy] = imgradientxy(Ifixed);
+        [MovingGx,MovingGy] = imgradientxy(I3);
+        p = abs(FixedGx.*MovingGx + FixedGy.*MovingGy);
+        e1 = FixedGx.^2 + FixedGy.^2;
+        e2 = MovingGx.^2 + MovingGy.^2;
+        e = -sum(p(:))/sqrt(sum(e1(:))*sum(e2(:)));
+        
+
 
     otherwise
         error('Unknown metric type');
