@@ -35,9 +35,9 @@ x=x.*scale;
 switch ttype
 	case 'r'
         % Make the affine transformation matrix
-         M=[ cos(x(3)) sin(x(3)) x(1);
-            -sin(x(3)) cos(x(3)) x(2);
-           0 0 1];
+         M=[ cos(x(3))  sin(x(3)) x(1);
+            -sin(x(3))  cos(x(3)) x(2);
+              0         0           1];
 end
      
 
