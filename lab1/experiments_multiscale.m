@@ -16,8 +16,8 @@ for i=2:4
     subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
 end
-
-% MSE + Affine
+% 
+% % MSE + Affine
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('brain%d.png', i))));
     [img_reg, ~] = multiscale_affine_registration_2d(img_mov, img_fix, 'sd', 'a', 4);
@@ -28,20 +28,20 @@ for i=2:4
     subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
 end
-
+% 
 % NNCC + Rigid
-for i=2:4
-    img_mov = im2double(rgb2gray(imread(sprintf('brain%d.png', i))));
-    [img_reg, ~] = multiscale_affine_registration_2d(img_mov, img_fix, 'nncc', 'r', 4);
-    figure(3)
-    resulting_errors(3, i-1) = sum(sum(abs(img_fix - img_reg)));
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
-end
+% for i=2:4
+%     img_mov = im2double(rgb2gray(imread(sprintf('brain%d.png', i))));
+%     [img_reg, ~] = multiscale_affine_registration_2d(img_mov, img_fix, 'nncc', 'r', 4);
+%     figure(3)
+%     resulting_errors(3, i-1) = sum(sum(abs(img_fix - img_reg)));
+%     subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
+%     subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
+%     subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
+%     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+% end
 
-% NNCC + Affine
+% % NNCC + Affine
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('brain%d.png', i))));
     [img_reg, ~] = multiscale_affine_registration_2d(img_mov, img_fix, 'nncc', 'a', 4);
@@ -52,20 +52,20 @@ for i=2:4
     subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
 end
-
+% 
 % NNGCC + Rigid
-for i=2:4
-    img_mov = im2double(rgb2gray(imread(sprintf('brain%d.png', i))));
-    [img_reg, ~] = multiscale_affine_registration_2d(img_mov, img_fix, 'nngcc', 'r', 4);
-    figure(5)
-    resulting_errors(5, i-1) = sum(sum(abs(img_fix - img_reg)));
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
-end
-
-% NNGCC + Affine
+% for i=2:4
+%     img_mov = im2double(rgb2gray(imread(sprintf('brain%d.png', i))));
+%     [img_reg, ~] = multiscale_affine_registration_2d(img_mov, img_fix, 'nngcc', 'r', 4);
+%     figure(5)
+%     resulting_errors(5, i-1) = sum(sum(abs(img_fix - img_reg)));
+%     subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
+%     subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
+%     subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
+%     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+% end
+% 
+% % NNGCC + Affine
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('brain%d.png', i))));
     [img_reg, ~] = multiscale_affine_registration_2d(img_mov, img_fix, 'nngcc', 'a', 4);

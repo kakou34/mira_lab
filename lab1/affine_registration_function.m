@@ -31,18 +31,40 @@ function [e]=affine_registration_function(par, scale, img_mov, img_fix, mtype, t
 % Function adapted from a code done by D.Kroon University of Twente.
 x=par.*scale;
 
-% Obtain the affine transformation matrix
+% M = [x(1) x(2) x(3); 
+%      x(4) x(5) x(6); 
+%       0    0    1];
+
+Obtain the affine transformation matrix
 switch ttype
     case 'r'
         M = [ cos(x(3)) sin(x(3)) x(1);
-            -sin(x(3)) cos(x(3)) x(2);
+              -sin(x(3)) cos(x(3)) x(2);
             0 0 1];
-%         M = inv(M);
+        M = inv(M);
     case 'a'
-        M = [ cos(x(3))*x(4) sin(x(3)) x(1);
-              -sin(x(3)) cos(x(3))*x(5) x(2);
-              x(6) x(7) 1];
-%         M = inv(M);
+             T = [1     0       x(1);
+                  0     1      x(2);
+                  0     0       1];
+
+             S = [x(4)     0      0;
+                  0        x(5)    0;
+                  0         0      1];
+
+
+             R = [cos(x(3))      sin(x(3))          0;
+                 -sin(x(3))        cos(x(3))          0;
+                 0                 0                 1];
+
+    
+           Sh = [1     x(6)       0;
+                 x(7)   1         0;
+                 0      0         1];
+
+           M = T * S * R * Sh;
+
+        M = inv(M);
+
 end
 
 % Compute the affine transformation
