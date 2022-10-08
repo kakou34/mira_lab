@@ -38,35 +38,16 @@ for i=1:n_scales
         switch ttype
             case 'r'
                 x = [0 0 0];
-                scale = [1 1 0.1];
+                scale = [1 1 2];
             case 'a'
-                x = [0 0 0 0 0 0 0];
-%                 scale = [1 1 0.1 0.1 1 1 1];
-                scale = [0.1 0.1 0.1 0.1 0.1 0.1 0.1];
+                x = [0 0 0 1 1 0 0];
+                scale = [1 1 0.1 0.1 1 1 1];
+
         end
     else
         img_size = img_size * 2;
         img_mov_r = imresize(img_mov, img_size, 'bicubic');
         img_fix_r = imresize(img_fix, img_size, 'bicubic');
-        switch ttype
-            case 'r'
-                x = [0 0 0];
-                x(3) = (acos(M(1,1)));
-                x(2) = M(2,3)*2;
-                x(1) = M(1,3)*2;
-                scale = [1 1 0.1];
-            case 'a'
-                x = [0 0 0 0 0 0 0];
-                x(1) = M(1,3)*2;
-                x(2) = M(2,3)*2;
-                x(3) = asin(M(1,2));
-                x(4) = (M(1,1) / cos(x(3)))*2;
-                x(5) = (M(2,2) / cos(x(3)))*2;
-                x(6) = M(3,1)*2;
-                x(7) = M(3,2)*2;
-%                 scale = [1 1 0.1 0.1 1 1 1];
-              scale = [0.1 0.1 0.1 0.1 0.1 0.1 0.1];
-        end
     end
     
     % Compute registration
@@ -85,32 +66,32 @@ for i=1:n_scales
     switch ttype
         case 'r'
             M = [cos(x(3)) sin(x(3)) x(1);
-                 -sin(x(3)) cos(x(3)) x(2);
+                -sin(x(3)) cos(x(3)) x(2);
                  0 0 1];
             M = inv(M);
         case 'a'
 
-             T = [1     0       x(1);
-                  0     1      x(2);
-                  0     0       1];
-
-             S = [x(4)     0      0;
-                  0        x(5)    0;
-                  0         0      1];
-
-
-             R = [cos(x(3))      sin(x(3))          0;
-                 -sin(x(3))        cos(x(3))          0;
-                 0                 0                 1];
-
-    
-           Sh = [1     x(6)       0;
+            T = [1     0      x(1);
+                 0     1      x(2);
+                 0     0      1  ];
+            
+            S = [x(4)     0      0;
+                 0        x(5)   0;
+                 0        0      1];
+            
+            
+            R = [cos(x(3))      sin(x(3))   0;
+                 -sin(x(3))     cos(x(3))   0;
+                 0              0           1];
+            
+                
+            Sh = [1      x(6)      0;
                  x(7)   1         0;
                  0      0         1];
 
-           M = T * S * R * Sh;
+            M = T * S * R * Sh;
 
-           M = inv(M);
+            M = inv(M);
     end
     
     % Transform the image 

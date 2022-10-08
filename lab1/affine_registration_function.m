@@ -35,7 +35,7 @@ x=par.*scale;
 %      x(4) x(5) x(6); 
 %       0    0    1];
 
-Obtain the affine transformation matrix
+% Obtain the affine transformation matrix
 switch ttype
     case 'r'
         M = [ cos(x(3)) sin(x(3)) x(1);
@@ -43,27 +43,27 @@ switch ttype
             0 0 1];
         M = inv(M);
     case 'a'
-             T = [1     0       x(1);
-                  0     1      x(2);
-                  0     0       1];
-
-             S = [x(4)     0      0;
-                  0        x(5)    0;
-                  0         0      1];
-
-
-             R = [cos(x(3))      sin(x(3))          0;
-                 -sin(x(3))        cos(x(3))          0;
-                 0                 0                 1];
-
-    
-           Sh = [1     x(6)       0;
+            T = [1     0      x(1);
+                 0     1      x(2);
+                 0     0      1  ];
+            
+            S = [x(4)     0      0;
+                 0        x(5)   0;
+                 0        0      1];
+            
+            
+            R = [cos(x(3))      sin(x(3))   0;
+                 -sin(x(3))     cos(x(3))   0;
+                 0              0           1];
+            
+                
+            Sh = [1      x(6)      0;
                  x(7)   1         0;
                  0      0         1];
 
-           M = T * S * R * Sh;
+            M = T * S * R * Sh;
 
-        M = inv(M);
+            M = inv(M);
 
 end
 

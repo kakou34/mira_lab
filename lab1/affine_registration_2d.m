@@ -17,29 +17,25 @@ function [img_reg, M, x] = affine_registration_2d(img_mov, img_fix, mtype, ttype
 %   img_out: The transformed image
 
 % Parameter scaling of the Translation and Rotation and initial parameters
-% switch ttype
-%     case 'r'
-%         x = [0 0 0];
-%         scale = [1 1 0.1];
-%     case 'a'
-%         x = [0 0 0 1 1 0 0];
-%         scale = [1 1 1 1 1 1 1];
-% end
-
-x = [1 0 0 0 1 0];
-scale = [1 1 0.1 1 1 1];
+switch ttype
+    case 'r'
+        x = [0 0 0];
+        scale = [0.6 0.6 0.5];
+    case 'a'
+        x = [0 0 0 1 1 0 0];
+        scale = [0.7 0.7 0.5 1 1 1 1];
+end
 x = x./scale;
 
 [x] = fminsearch(...
     @(x)affine_registration_function(...
         x, scale, img_mov, img_fix, mtype, ttype), ...
-    x, optimset('Display', 'iter', 'MaxIter', 100000, ...
+    x, optimset('Display', 'iter', 'MaxIter', 1000, ...
         'TolFun', 1.000000e-10, 'TolX', 1.000000e-10, ...
         'MaxFunEvals', 1000*length(x)));
 
 x = x.*scale;
 
-x
 
 % Obtain the affine transformation matrix
 switch ttype
@@ -49,26 +45,27 @@ switch ttype
              0 0 1];
         M = inv(M);
     case 'a'
-             T = [1     0       x(1);
-                  0     1      x(2);
-                  0     0       1];
-
-             S = [x(4)     0      0;
-                  0        x(5)    0;
-                  0         0      1];
-
-
-             R = [cos(x(3))      sin(x(3))          0;
-                 -sin(x(3))        cos(x(3))          0;
-                 0                 0                 1];
-
-    
-           Sh = [1     x(6)       0;
+            T = [1     0      x(1);
+                 0     1      x(2);
+                 0     0      1  ];
+            
+            S = [x(4)     0      0;
+                 0        x(5)   0;
+                 0        0      1];
+            
+            
+            R = [cos(x(3))      sin(x(3))   0;
+                 -sin(x(3))     cos(x(3))   0;
+                 0              0           1];
+            
+                
+            Sh = [1      x(6)      0;
                  x(7)   1         0;
                  0      0         1];
 
-           M = T * S * R * Sh;
-        M = inv(M);
+            M = T * S * R * Sh;
+
+            M = inv(M);
 
 end
 
