@@ -1,7 +1,7 @@
-function [img_reg, M] = multiscale_affine_registration_2d(img_mov, img_fix, mtype, ttype, n_scales)
+function [img_reg, M] = multiscale_affine_registration_2d(img_mov, img_fix, mtype, ttype, n_resolutions)
 % This function estimates in a, multiscale fashion the parameters of a 2D affine ranformation
 %
-% img_reg, M = multiscale_affine_registration_2d(img_mov, img_fix, mtype, ttype, n_scales)
+% img_reg, M = multiscale_affine_registration_2d(img_mov, img_fix, mtype, ttype, n_resolutions)
 %
 % inputs,
 %   img_mov: The moving image
@@ -13,23 +13,25 @@ function [img_reg, M] = multiscale_affine_registration_2d(img_mov, img_fix, mtyp
 %   ttype: registration type, options:
 %       'r': rigid
 %       'a': affine
+%   n_resolutions: the number of resolutions to be used in the registration
+%   pyramid
 % output,
 %   img_out: The transformed image
 
 % Make sure the image has even dimentions
 img_size = size(img_mov);
-for i=1:2
-    if mod(img_size(i), 2) ~= 0
-        new_size = img_size;
-        new_size(i) = img_size(i) - 1;
-        img_mov = imresize(img_mov, new_size, 'bicubic');
-        img_fix = imresize(img_fix, new_size, 'bicubic');
-    end
-end
+% for i=1:2
+%     if mod(img_size(i), 2) ~= 0
+%         new_size = img_size;
+%         new_size(i) = img_size(i) - 1;
+%         img_mov = imresize(img_mov, new_size, 'bicubic');
+%         img_fix = imresize(img_fix, new_size, 'bicubic');
+%     end
+% end
 
 % Scale, compute, recycle parameters, repeat
-img_size = img_size / (2*n_scales);
-for i=1:n_scales
+img_size = img_size / (2*n_resolutions);
+for i=1:n_resolutions
     
     % Scale and recycle parameters
     if (i==1)
@@ -38,10 +40,10 @@ for i=1:n_scales
         switch ttype
             case 'r'
                 x = [0 0 0];
-                scale = [1 1 2];
+                scale = [1 1 1];
             case 'a'
                 x = [0 0 0 1 1 0 0];
-                scale = [1 1 0.1 0.1 1 1 1];
+                scale = [1 1 1 1 1 1 1]; 
 
         end
     else
@@ -93,9 +95,18 @@ for i=1:n_scales
 
             M = inv(M);
     end
-    
-    % Transform the image 
-    img_reg = affine_transform_2d_double(double(img_mov_r), double(M), 3);
+
+    %rescale translation parameters for the next iteration 
+    switch ttype
+        case 'r'
+           x = x .* [2 2 1];
+          
+        case 'a'
+           x = x .* [2 2 1 1 1 1 1];
+   end
 end
+
+    % Transform the original moving image with the final transformation matrix obtained 
+    img_reg = affine_transform_2d_double(double(img_mov), double(M), 3);
 end
 
