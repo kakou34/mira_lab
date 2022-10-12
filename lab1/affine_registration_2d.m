@@ -20,10 +20,10 @@ function [img_reg, M, x] = affine_registration_2d(img_mov, img_fix, mtype, ttype
 switch ttype
     case 'r'
         x = [0 0 0];
-        scale = [0.6 0.6 0.5];
+        scale = [1 1 1];
     case 'a'
         x = [0 0 0 1 1 0 0];
-        scale = [0.7 0.7 0.5 1 1 1 1];
+        scale = [1 1 1 1 1 1 1];
 end
 x = x./scale;
 
@@ -32,7 +32,7 @@ x = x./scale;
         x, scale, img_mov, img_fix, mtype, ttype), ...
     x, optimset('Display', 'iter', 'MaxIter', 1000, ...
         'TolFun', 1.000000e-10, 'TolX', 1.000000e-10, ...
-        'MaxFunEvals', 1000*length(x)));
+        'MaxFunEvals', 1000*length(x), 'PlotFcns', @optimplotfval));
 
 x = x.*scale;
 
@@ -59,19 +59,15 @@ switch ttype
                  0              0           1];
             
                 
-            Sh = [1      x(6)      0;
-                 x(7)   1         0;
-                 0      0         1];
+            Sh = [1    x(6)    0;
+                 x(7)   1      0;
+                 0      0      1];
 
             M = T * S * R * Sh;
 
             M = inv(M);
 
 end
-
-% M = [x(1) x(2) x(3); 
-%      x(4) x(5) x(6); 
-%       0    0    1];
 
 % Transform the image 
 img_reg = affine_transform_2d_double(double(img_mov), double(M), 1);

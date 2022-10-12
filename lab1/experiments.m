@@ -23,7 +23,7 @@ for i=2:4
     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
 end
 
-% MSE + Affine
+% % % MSE + Affine
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('images/brain%d.png', i))));
     tic
@@ -39,7 +39,7 @@ for i=2:4
     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
 end
 
-% NNCC + Rigid
+% % NNCC + Rigid
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('images/brain%d.png', i))));
     tic
@@ -55,7 +55,7 @@ for i=2:4
     subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
 end
 
-% NNCC + Affine
+% % NNCC + Affine
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('images/brain%d.png', i))));
     tic

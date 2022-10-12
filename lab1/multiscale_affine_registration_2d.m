@@ -39,8 +39,8 @@ for i=1:n_resolutions
         img_fix_r = imresize(img_fix, img_size, 'bicubic');
         switch ttype
             case 'r'
-                x = [0 0 0];
-                scale = [1 1 1];
+                x = [0 0 90];
+                scale = [1 1 0.0001];
             case 'a'
                 x = [0 0 0 1 1 0 0];
                 scale = [1 1 1 1 1 1 1]; 
@@ -60,7 +60,7 @@ for i=1:n_resolutions
             x, scale, img_mov_r, img_fix_r, mtype, ttype), ...
         x, optimset('Display', 'iter', 'MaxIter', 1000, ...
             'TolFun', 1.000000e-10, 'TolX', 1.000000e-10, ...
-            'MaxFunEvals', 1000*length(x)));
+            'MaxFunEvals', 1000*length(x), 'PlotFcns', @optimplotfval));
     
     x = x.*scale;
     

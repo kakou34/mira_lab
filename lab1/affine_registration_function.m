@@ -31,10 +31,6 @@ function [e]=affine_registration_function(par, scale, img_mov, img_fix, mtype, t
 % Function adapted from a code done by D.Kroon University of Twente.
 x=par.*scale;
 
-% M = [x(1) x(2) x(3); 
-%      x(4) x(5) x(6); 
-%       0    0    1];
-
 % Obtain the affine transformation matrix
 switch ttype
     case 'r'
