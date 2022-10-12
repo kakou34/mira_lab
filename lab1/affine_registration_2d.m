@@ -32,7 +32,8 @@ x = x./scale;
         x, scale, img_mov, img_fix, mtype, ttype), ...
     x, optimset('Display', 'iter', 'MaxIter', 1000, ...
         'TolFun', 1.000000e-10, 'TolX', 1.000000e-10, ...
-        'MaxFunEvals', 1000*length(x), 'PlotFcns', @optimplotfval));
+        'MaxFunEvals', 1000*length(x)));
+exportgraphics(gcf,'optim.png')
 
 x = x.*scale;
 

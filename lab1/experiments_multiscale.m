@@ -16,11 +16,9 @@ for i=2:4
     resulting_errors(1, i-1) = sum(sum(abs(img_fix - img_reg)));
     resulting_mis(1, i-1) = mutual_information(img_fix, img_reg);
 
-    figure(1)
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+    plot_imgs(1, i, img_fix, img_mov, img_reg)
+    file_n = "images\rigid_mse_mr.png";
+    exportgraphics(gcf,file_n)
 end
 
 % MSE + Affine
@@ -32,11 +30,9 @@ for i=2:4
     resulting_errors(2, i-1) = sum(sum(abs(img_fix - img_reg)));
     resulting_mis(2, i-1) = mutual_information(img_fix, img_reg);
 
-    figure(2)
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+    plot_imgs(2, i, img_fix, img_mov, img_reg)
+    file_n = "images\affine_mse_mr.png";
+    exportgraphics(gcf,file_n)
 end
 
 % NNCC + Rigid 
@@ -48,11 +44,9 @@ for i=2:4
     resulting_errors(3, i-1) = sum(sum(abs(img_fix - img_reg)));
     resulting_mis(3, i-1) = mutual_information(img_fix, img_reg);
 
-    figure(3)
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+    plot_imgs(3, i, img_fix, img_mov, img_reg)
+    file_n = "images\rigid_nncc_mr.png";
+    exportgraphics(gcf,file_n)
 end
 
 % NNCC + Affine
@@ -64,11 +58,9 @@ for i=2:4
     resulting_errors(4, i-1) = sum(sum(abs(img_fix - img_reg)));
     resulting_mis(4, i-1) = mutual_information(img_fix, img_reg);
 
-    figure(4)
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+    plot_imgs(4, i, img_fix, img_mov, img_reg)
+    file_n = "images\affine_nncc_mr.png";
+    exportgraphics(gcf,file_n)
 end
 
 % NNGCC + Rigid
@@ -80,11 +72,9 @@ for i=2:4
     resulting_errors(5, i-1) = sum(sum(abs(img_fix - img_reg)));
     resulting_mis(5, i-1) = mutual_information(img_fix, img_reg);
 
-    figure(5)
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+    plot_imgs(5, i, img_fix, img_mov, img_reg)
+    file_n = "images\rigid_nngcc_mr.png";
+    exportgraphics(gcf,file_n)
 end
 
 % NNGCC + Affine
@@ -96,11 +86,9 @@ for i=2:4
     resulting_errors(6, i-1) = sum(sum(abs(img_fix - img_reg)));
     resulting_mis(6, i-1) = mutual_information(img_fix, img_reg);
 
-    figure(6)
-    subplot(3, 4, 4*(i-2) + 1), imshow(img_fix), title('Fixed Image');
-    subplot(3, 4, 4*(i-2) + 2), imshow(img_mov), title('Moving Image');
-    subplot(3, 4, 4*(i-2) + 3), imshow(img_reg), title('Registered Image');
-    subplot(3, 4, 4*(i-2) + 4), imshow(abs(img_fix - img_reg)), title('Registration Error');
+    plot_imgs(6, i, img_fix, img_mov, img_reg)
+    file_n = "images\affine_nngcc_mr.png";
+    exportgraphics(gcf,file_n)
 end
 
 times
