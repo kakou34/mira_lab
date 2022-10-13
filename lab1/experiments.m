@@ -20,7 +20,7 @@ for i=2:4
     file_n = "images\rigid_mse_sr.png";
     exportgraphics(gcf,file_n)
 end
-
+% 
 % MSE + Affine
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('images/brain%d.png', i))));
@@ -35,7 +35,7 @@ for i=2:4
     exportgraphics(gcf,file_n)
 end
 
-% % NNCC + Rigid
+% NNCC + Rigid
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('images/brain%d.png', i))));
     tic
@@ -49,7 +49,7 @@ for i=2:4
     exportgraphics(gcf,file_n)
 end
 
-% % NNCC + Affine
+% NNCC + Affine
 for i=2:4
     img_mov = im2double(rgb2gray(imread(sprintf('images/brain%d.png', i))));
     tic

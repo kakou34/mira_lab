@@ -40,7 +40,7 @@ for i=1:n_resolutions
         switch ttype
             case 'r'
                 x = [0 0 0];
-                scale = [1 1 0.1];
+                scale = [1 1 1];
             case 'a'
                 x = [0 0 0 1 1 0 0];
                 scale = [1 1 1 1 1 1 1]; 
