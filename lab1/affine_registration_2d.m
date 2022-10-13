@@ -1,4 +1,4 @@
-function [img_reg, M, x] = affine_registration_2d(img_mov, img_fix, mtype, ttype)
+function [img_reg, M] = affine_registration_2d(img_mov, img_fix, mtype, ttype)
 % This function estimates the parameters of a 2D affine ranformation
 %
 % img_reg, M = affine_registration_2d(img_mov, img_fix, mtype, ttype)
@@ -27,13 +27,13 @@ switch ttype
 end
 x = x./scale;
 
+% Optimize the parameters 
 [x] = fminsearch(...
     @(x)affine_registration_function(...
         x, scale, img_mov, img_fix, mtype, ttype), ...
     x, optimset('Display', 'iter', 'MaxIter', 1000, ...
         'TolFun', 1.000000e-10, 'TolX', 1.000000e-10, ...
         'MaxFunEvals', 1000*length(x)));
-exportgraphics(gcf,'optim.png')
 
 x = x.*scale;
 
@@ -46,26 +46,25 @@ switch ttype
              0 0 1];
         M = inv(M);
     case 'a'
+            % Translation Matrix
             T = [1     0      x(1);
                  0     1      x(2);
                  0     0      1  ];
-            
+            % Scaling matrix
             S = [x(4)     0      0;
                  0        x(5)   0;
                  0        0      1];
-            
-            
+            % Rotation Matrix
             R = [cos(x(3))      sin(x(3))   0;
                  -sin(x(3))     cos(x(3))   0;
                  0              0           1];
-            
-                
+            % Shearing Matrix   
             Sh = [1    x(6)    0;
                  x(7)   1      0;
                  0      0      1];
-
+            % Affine Transformation Matrix
             M = T * S * R * Sh;
-
+            % Inverse Transformation Matrix
             M = inv(M);
 
 end

@@ -29,6 +29,7 @@ function [e]=affine_registration_function(par, scale, img_mov, img_fix, mtype, t
 % Outputs:
 %   img_reg: Registered image.
 % Function adapted from a code done by D.Kroon University of Twente.
+
 x=par.*scale;
 
 % Obtain the affine transformation matrix
@@ -37,29 +38,28 @@ switch ttype
         M = [ cos(x(3)) sin(x(3)) x(1);
               -sin(x(3)) cos(x(3)) x(2);
             0 0 1];
-        M = inv(M);
+        M = inv(M); % inverse transform
     case 'a'
+            % Translation Matrix
             T = [1     0      x(1);
                  0     1      x(2);
                  0     0      1  ];
-            
+            % Scaling Matrix
             S = [x(4)     0      0;
                  0        x(5)   0;
-                 0        0      1];
-            
-            
+                 0        0      1];     
+            % Rotation Matrix
             R = [cos(x(3))      sin(x(3))   0;
                  -sin(x(3))     cos(x(3))   0;
                  0              0           1];
-            
-                
+            % Shearing Matrix   
             Sh = [1      x(6)      0;
                  x(7)   1         0;
                  0      0         1];
-
+            % Affine transformation 
             M = T * S * R * Sh;
-
-            M = inv(M);
+            % inverse transform
+            M = inv(M); 
 
 end
 

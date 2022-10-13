@@ -15,7 +15,7 @@ for i=2:4
     times(1, i-1) = toc;
     resulting_errors(1, i-1) = sum(sum(abs(img_fix - img_reg)));
     resulting_mis(1, i-1) = mutual_information(img_fix, img_reg);
-
+    
     plot_imgs(1, i, img_fix, img_mov, img_reg)
     file_n = "images\rigid_mse_mr.png";
     exportgraphics(gcf,file_n)

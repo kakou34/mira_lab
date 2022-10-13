@@ -20,14 +20,6 @@ function [img_reg, M] = multiscale_affine_registration_2d(img_mov, img_fix, mtyp
 
 % Make sure the image has even dimentions
 img_size = size(img_mov);
-% for i=1:2
-%     if mod(img_size(i), 2) ~= 0
-%         new_size = img_size;
-%         new_size(i) = img_size(i) - 1;
-%         img_mov = imresize(img_mov, new_size, 'bicubic');
-%         img_fix = imresize(img_fix, new_size, 'bicubic');
-%     end
-% end
 
 % Scale, compute, recycle parameters, repeat
 img_size = img_size / (2*n_resolutions);
@@ -47,7 +39,7 @@ for i=1:n_resolutions
 
         end
     else
-        img_size = img_size * 2;
+        img_size = img_size * 2; % rescale to a higher resolution
         img_mov_r = imresize(img_mov, img_size, 'bicubic');
         img_fix_r = imresize(img_fix, img_size, 'bicubic');
     end
@@ -55,13 +47,13 @@ for i=1:n_resolutions
     % Compute registration
     x = x./scale;
     
+    % Optimize params
     [x] = fminsearch(...
         @(x)affine_registration_function(...
             x, scale, img_mov_r, img_fix_r, mtype, ttype), ...
         x, optimset('Display', 'iter', 'MaxIter', 1000, ...
             'TolFun', 1.000000e-10, 'TolX', 1.000000e-10, ...
             'MaxFunEvals', 1000*length(x)));
-%     exportgraphics(gcf,'optim.png')
     
     x = x.*scale;
     
@@ -73,27 +65,27 @@ for i=1:n_resolutions
                  0 0 1];
             M = inv(M);
         case 'a'
-
+            % Translation
             T = [1     0      x(1);
                  0     1      x(2);
                  0     0      1  ];
-            
+            % Scaling
             S = [x(4)     0      0;
                  0        x(5)   0;
                  0        0      1];
             
-            
+            % Rotation
             R = [cos(x(3))      sin(x(3))   0;
                  -sin(x(3))     cos(x(3))   0;
                  0              0           1];
             
-                
+            % Shearing    
             Sh = [1      x(6)      0;
                  x(7)   1         0;
                  0      0         1];
-
+            % Affine Transformation
             M = T * S * R * Sh;
-
+            % Inverse Transformation
             M = inv(M);
     end
 
